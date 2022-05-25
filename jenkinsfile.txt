@@ -1,0 +1,28 @@
+pipeline {
+    agent any 
+       stages {
+            stage('Declrative checkout')  {
+                steps {
+                         sh 'npm install'
+        }
+   }
+
+  stages{
+       stage('compile stage') {
+          steps{
+                sh 'npm run serve'
+         }
+    }
+      stages{'Testing stage') {
+          steps{
+                 sh 'npm run build'
+         }
+    }
+      stages('Deploy stage') {
+         steps{
+              sh 'npm run lint'
+        }
+    }
+
+}
+                 
