@@ -1,24 +1,18 @@
 pipeline {
-agent any
-stages
-{
-stage('Build')
-{
-steps{
-echo "Building the project"
-}
-}
-stage('Test')
-{
-steps{
-echo"Testing the project"
-}
-}
-stage('Deploy')
-{
-steps{
-echo "Deploying the project"
-}
-}
-}
+    agent any
+    tools {
+        maven 'Maven3'
+    }
+    stages {
+        stage('checkout') {
+            steps
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Sureshvenkatram/Java-backend-projects.git']]])
+            
+        }
+         stage('Build') {
+             steps {
+                 sh 'mvn clean install -f Java-backend-projects/pom.xml'
+             }
+         }
+    }
 }
