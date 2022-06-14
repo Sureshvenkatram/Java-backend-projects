@@ -1,0 +1,39 @@
+pipeline {
+    
+    agent any 
+    
+    tools {
+        nodejs 'Nodejs18.3.0'
+    }
+    
+    stages {
+        
+        stage ('checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Sureshvenkatram/Java-backend-projects.git']]])
+            }
+        }   
+            stage ('Build') {
+                steps {
+                    sh 'npm install'
+                }  
+            }
+            stage('Compiles and hot-reloads for development') {
+                steps {
+                   sh 'npm run serve'
+                }
+            }
+            stage('Compiles and minifies for production') {
+                steps {
+                    sh 'npm run build'
+                }
+            }
+            stage('Lints and fixes files') {
+                steps {
+                    sh 'npm run lint'
+                }
+            }
+        
+    }
+        
+}
